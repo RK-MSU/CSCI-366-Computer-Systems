@@ -42,3 +42,10 @@ Each homework has it's own directory (`/homework_1`, `/homework_2`, etc.).  Plea
 You will implement a simplified, networked version of the gaming classic [BattleShip](https://en.wikipedia.org/wiki/Battleship_(game)).
 
 More information can be found in the `/battlebit` directory
+
+
+
+#### TO-DO
+
+* One
+* Two
