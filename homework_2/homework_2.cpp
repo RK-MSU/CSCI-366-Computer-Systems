@@ -4,6 +4,16 @@ char * print_binary_representation(unsigned int i, char *buffer){
     buffer[0] = '0';
     buffer[1] = 'b';
     // fill out remaining 32 bits, 1 or 0 depending on the value in the number i
+    unsigned int n = 32;
+    unsigned int buffer_i = 2;
+
+    do {
+        if(i & (1ull << --n))
+            buffer[buffer_i++] = '1';
+        else
+            buffer[buffer_i++] = '0';
+    } while(n != 0);
+
     return buffer;
 }
 
@@ -26,6 +36,7 @@ TEST(print_binary_representation, works) {
     EXPECT_STREQ("0b11111111111111111111111111111111", print_binary_representation(UINT32_MAX, buffer));
 }
 
+
 /* PROBLEM 2: The test below fails.  Change the signature of set_my_age and the
  * call of the function in get_my_age so that the expected value is returned.
  *
@@ -37,21 +48,17 @@ struct Person {
     int age;
 };
 
-void set_my_age(struct Person p) {
-    p.age = 44;
+void set_my_age(struct Person *p) {
+    (*p).age = 44;
 }
 
 int get_my_age() {
     struct Person me;
     me.name = "Carson";
-    set_my_age(me);
+    set_my_age(&me);
     return me.age;
 }
 
 TEST(set_my_age, works) {
     EXPECT_EQ(44, get_my_age());
 }
-
-
-
-
