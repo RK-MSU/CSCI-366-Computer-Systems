@@ -4,7 +4,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 #include "game.h"
+#include "game_data.h"
 
 // STEP 9 - Synchronization: the GAME structure will be accessed by both players interacting
 // asynchronously with the server.  Therefore the data must be protected to avoid race conditions.
@@ -53,7 +56,12 @@ unsigned long long int xy_to_bitval(int x, int y) {
     //
     // you will need to use bitwise operators and some math to produce the right
     // value.
-    return 1ull;
+    // return 0;
+
+    if(is_valid_coordinate(x,y)) {
+        return 1ull << x << y * 8;
+    }
+    return 0ull;
 }
 
 struct game * game_get_current() {
@@ -72,16 +80,125 @@ int game_load_board(struct game *game, int player, char * spec) {
     // slot and return 1
     //
     // if it is invalid, you should return -1
+
+
+
+    // ---------------------------------------------
+    // First, we will validate the input given to us
+    // 1 - validate player value
+    // 2 - validate the board spec
+    // ---------------------------------------------
+
+
+    // were we given an integer?
+    if(typename(player) != "int") {
+        return -1;
+    }
+    // validate player value - is the player a correct value?
+    // player must either be 0 or 1... we only have 2 players
+    if(player > 1 || player < 0) {
+        // invalid player value, return -1
+        return -1;
+    }
+
+
+    // validate spec (i.e. a user input)
+    // ---------------------------------
+
+    if(typename(spec) != "pointer to char" || typename(*spec) != "char") {
+        return -1;
+    }
+
+    // if spec is NULL or not valid length, return -1
+    if(spec == NULL || strlen(spec) != 15) {
+        return -1;
+    }
+
+    struct player_info temp_player_info;
+    game_init_player_info(&temp_player_info);
+    struct ships_data player_ships;
+    init_ships_data(&player_ships);
+
+    for(int i = 0; i < 15; i = i+3) {
+        char ship_type_char = spec[i],
+             ship_x = spec[i+1],
+             ship_y = spec[i+2];
+        if(is_char_valid_ship(ship_type_char) == false) {
+            return -1;
+        }
+
+        if(has_seen_char_ship(ship_type_char, &player_ships) == true) {
+            return -1;
+        }
+
+        if(is_char_valid_coordinate(ship_x) == false) {
+            return -1;
+        }
+        if(is_char_valid_coordinate(ship_y) == false) {
+            return -1;
+        }
+        int ship_len = get_char_ship_type_len(ship_type_char),
+            x_coordinate = ship_x -'0',
+            y_coordinate = ship_y - '0',
+            ship_added_success = 1;
+
+        if(is_ship_horizontal(ship_type_char) == true) {
+            ship_added_success = add_ship_horizontal(&temp_player_info, x_coordinate, y_coordinate, ship_len);
+        } else {
+            ship_added_success = add_ship_vertical(&temp_player_info, x_coordinate, y_coordinate, ship_len);
+        }
+
+        if(ship_added_success == -1) {
+            return -1;
+        }
+
+        mark_ship_seen(ship_type_char, &player_ships);
+    }
+
+    struct player_info * player_info = &game->players[player];
+    player_info->ships = temp_player_info.ships;
+
+    return 1;
 }
 
 int add_ship_horizontal(player_info *player, int x, int y, int length) {
     // implement this as part of Step 2
     // returns 1 if the ship can be added, -1 if not
     // hint: this can be defined recursively
+    if(length == 0) {
+        return 1;
+    }
+    if(is_valid_coordinate(x, y) == false) {
+        return -1;
+    }
+    unsigned long long int mask = xy_to_bitval(x, y);
+    if(player->ships & mask) {
+        return -1;
+    }
+    if(add_ship_horizontal(player, x+1, y, length-1) == -1) {
+        return -1;
+    }
+    player->ships = player->ships | mask;
+    return 1;
 }
 
 int add_ship_vertical(player_info *player, int x, int y, int length) {
     // implement this as part of Step 2
     // returns 1 if the ship can be added, -1 if not
     // hint: this can be defined recursively
+    if(length == 0) {
+        return 1;
+    }
+    if(is_valid_coordinate(x, y) == false) {
+        return -1;
+    }
+    unsigned long long int mask = xy_to_bitval(x, y);
+    if(player->ships & mask) {
+        return -1;
+    }
+    if(add_ship_vertical(player, x, y+1, length-1) == -1) {
+        return -1;
+    }
+    player->ships = player->ships | mask;
+    return 1;
 }

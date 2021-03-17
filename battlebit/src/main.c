@@ -15,12 +15,18 @@ int main() {
 
     game_init(); // NB: game init initializes the game state, all held in game.c
 
+    int player = 0;
+    char * board_spec = "C00b02D23S47p71";
+    game_load_board(game_get_current(),  player, board_spec);
+
+
     do {
         // This is the classic Read, Evaluate, Print Loop, hence REPL
         command = repl_read_command("battleBit (? for help) > ");
         repl_execute_command(command);
         cb_free(command);
     } while (command);
-    return 0;
 
+
+    return 0;
 }
