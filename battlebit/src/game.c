@@ -42,6 +42,38 @@ int game_fire(game *game, int player, int x, int y) {
     //
     //  If the opponents ships value is 0, they have no remaining ships, and you should set the game state to
     //  PLAYER_1_WINS or PLAYER_2_WINS depending on who won.
+    
+    // get other player (opponent)
+    int opponent = (player + 1) % 2;
+
+    // get bit value of player shot
+    unsigned long long int shot_mask = xy_to_bitval(x, y);
+
+    // update player shots using mask
+    game->players[player].shots = game->players[player].shots | shot_mask;
+
+
+    // check if shot was a hit
+    if(game->players[opponent].ships & shot_mask) { // hit was a success
+        // update player hits
+        game->players[player].hits = game->players[player].hits | shot_mask;
+        // remove hit ship location
+        game->players[opponent].ships = game->players[opponent].ships ^ shot_mask;
+    } else {
+        return 0;
+    }
+
+
+    // game over? check if opponent has any ships left
+    if(game->players[opponent].ships == 0) { // GAME OVER
+        // set game status of winner
+        game->status = (player == 0) ? PLAYER_0_WINS : PLAYER_1_WINS;
+    } else { // ships remain, change turns
+        // set game status to other player's turn
+        game->status = (player == 0) ? PLAYER_1_TURN : PLAYER_0_TURN;
+    }
+
+    return 1;
 }
 
 unsigned long long int xy_to_bitval(int x, int y) {
@@ -155,8 +187,16 @@ int game_load_board(struct game *game, int player, char * spec) {
         mark_ship_seen(ship_type_char, &player_ships);
     }
 
-    struct player_info * player_info = &game->players[player];
-    player_info->ships = temp_player_info.ships;
+    game->players[player].ships = temp_player_info.ships;
+
+    // get other player (opponent)
+    int opponent = (player + 1) % 2;
+
+    // both players ready?
+    if(game->players[player].ships != 0 && game->players[opponent].ships != 0) {
+        // set game status to player turn
+        game->status = PLAYER_0_TURN;
+    }
 
     return 1;
 }
