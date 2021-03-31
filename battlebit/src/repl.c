@@ -146,4 +146,41 @@ void repl_print_hits(struct player_info *player_info, struct char_buff *buffer) 
     // hits and shots values in the players game struct.  If a shot was fired at
     // a given spot and it was a hit, print 'H', if it was a miss, print 'M'.  If
     // no shot was taken at a position, print a space character ' '
+    
+    // mask for checking bit value
+    unsigned long long mask;
+
+    // add top row
+    cb_append(buffer, "  0 1 2 3 4 5 6 7 \n");
+
+    // loop board rows
+    for(int row_i = 0; row_i < BOARD_DIMENSION; row_i++) {
+        // add row to buffer
+        cb_append_int(buffer, row_i);
+        cb_append(buffer, " ");
+
+        // loop columns
+        for(int col_i = 0; col_i < BOARD_DIMENSION; col_i++) {
+
+            // update mask
+            mask = xy_to_bitval(col_i, row_i);
+
+            // hit or miss? well, was a shot taken at all?
+            if(player_info->shots & mask) { // a shot was placed, hit or miss?
+                // did we hit something?
+                if(player_info->hits & mask) { // a hit was taken here!
+                    cb_append(buffer, "H ");
+                } else { // it was a miss
+                    cb_append(buffer, "M ");
+                }
+            } else { // no shots here, empty
+                cb_append(buffer, "  ");
+            }
+
+        } // END of columns loop
+
+        // add new line after column loop
+        cb_append(buffer, "\n");
+
+    } // END of rows loop
 }
