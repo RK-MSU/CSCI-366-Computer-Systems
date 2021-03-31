@@ -105,6 +105,38 @@ void repl_print_ships(player_info *player_info, char_buff *buffer) {
     //  for the console.  You will need to use bit masking for each position
     //  to determine if a ship is at the position or not.  If it is present
     //  you need to print an X.  If not, you need to print a space character ' '
+    
+    // mask for checking bit value
+    unsigned long long mask;
+
+    // add top row
+    cb_append(buffer, "  0 1 2 3 4 5 6 7 \n");
+
+    // loop board rows
+    for(int row_i = 0; row_i < BOARD_DIMENSION; row_i++) {
+        // add row to buffer
+        cb_append_int(buffer, row_i);
+        cb_append(buffer, " ");
+
+        // loop columns
+        for(int col_i = 0; col_i < BOARD_DIMENSION; col_i++) {
+
+            // update mask
+            mask = xy_to_bitval(col_i, row_i);
+
+            // check for matching 'and' bit value
+            if(player_info->ships & mask) { // there is a ship here!
+                cb_append(buffer, "* ");
+            } else { // empty, no ship here
+                cb_append(buffer, "  ");
+            }
+
+        } // END of columns loop
+
+        // add new line after column loop
+        cb_append(buffer, "\n");
+
+    } // END of rows loop
 }
 
 void repl_print_hits(struct player_info *player_info, struct char_buff *buffer) {
