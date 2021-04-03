@@ -26,6 +26,7 @@ void game_init() {
 }
 
 void game_init_player_info(player_info *player_info) {
+    player_info->ready_to_play = false;
     player_info->ships = 0;
     player_info->hits = 0;
     player_info->shots = 0;
@@ -44,7 +45,7 @@ int game_fire(game *game, int player, int x, int y) {
     //  PLAYER_1_WINS or PLAYER_2_WINS depending on who won.
     
     // get other player (opponent)
-    int opponent = (player + 1) % 2;
+    int opponent = get_opponent(player);
 
     // get bit value of player shot
     unsigned long long int shot_mask = xy_to_bitval(x, y);
@@ -187,15 +188,17 @@ int game_load_board(struct game *game, int player, char * spec) {
         mark_ship_seen(ship_type_char, &player_ships);
     }
 
+
+    if(seen_all_ships(&player_ships) == false) {
+        return -1;
+    }
+
     game->players[player].ships = temp_player_info.ships;
+    game->players[player].ready_to_play = true;
 
-    // get other player (opponent)
-    int opponent = (player + 1) % 2;
-
-    // both players ready?
-    if(game->players[player].ships != 0 && game->players[opponent].ships != 0) {
-        // set game status to player turn
-        game->status = PLAYER_0_TURN;
+    // both players ready to play?
+    if(players_ready(game) == true) {
+        game->status = PLAYER_0_TURN; // set game status to player turn
     }
 
     return 1;

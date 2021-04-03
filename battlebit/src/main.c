@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "repl.h"
 #include "game.h"
+#include "server.h"
 
 int main() {
     printf("Welcome to BattleBit\n\n");
@@ -15,13 +16,17 @@ int main() {
 
     game_init(); // NB: game init initializes the game state, all held in game.c
 
+    server_start();
+
+    // C00b02D23S47p71
+    // C00B01D02S03P04
+
     do {
         // This is the classic Read, Evaluate, Print Loop, hence REPL
         command = repl_read_command("battleBit (? for help) > ");
         repl_execute_command(command);
         cb_free(command);
     } while (command);
-
 
     return 0;
 }

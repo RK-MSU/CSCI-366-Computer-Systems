@@ -6,6 +6,7 @@
 #define BATTLESHIP_SERVER_H
 
 #include "char_buff.h"
+#include <stdbool.h>
 
 #define BATTLEBIT_PORT 9876
 
@@ -18,5 +19,9 @@ typedef  struct game_server {
 int server_start();
 
 void server_broadcast(char_buff *msg);
+
+bool message_other_player(char_buff *msg, int player);
+
+void prepare_player_message(char_buff *msg, int player);
 
 #endif //BATTLESHIP_SERVER_H

@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <unistd.h>    //write
 
+
+
 struct char_buff * cb_create(int size) {
     struct char_buff * char_buff = malloc(sizeof(struct char_buff));
     char_buff->buffer = malloc(sizeof(char) * (size + 1));

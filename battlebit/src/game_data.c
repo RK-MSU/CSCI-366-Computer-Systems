@@ -5,6 +5,22 @@
 #include "game.h"
 
 
+
+int get_opponent(int player) {
+    return (player + 1) % 2;
+}
+
+bool players_ready(struct game *game) {
+    if (game->players[0].ready_to_play != true || game->players[1].ready_to_play != true) return false;
+    return true;
+}
+
+bool other_player_ready(struct game *game, int player) {
+    int opponent = get_opponent(player);
+    return game->players[opponent].ready_to_play;
+}
+
+
 int get_char_ship_type_len(char ship) {
     int len = 0;
 
@@ -70,7 +86,15 @@ void mark_ship_seen(char ship, struct ships_data * data) {
     }
 }
 
+bool seen_all_ships(struct ships_data *data) {
+    bool seen_all = false;
 
+    if(data->battleship == 1 && data->carrier == 1 && data->destroyer == 1 && data->patrol_boat == 1 && data->submarine == 1) {
+        seen_all = true;
+    }
+
+    return seen_all;
+}
 
 bool has_seen_char_ship(char ship, struct ships_data *data) {
     bool seen = false;

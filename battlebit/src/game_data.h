@@ -1,5 +1,6 @@
 
 #include <stdbool.h>
+#include "game.h"
 
 #define typename(x) _Generic((x),        /* Get the name of a type */             \
                                                                                   \
@@ -23,11 +24,16 @@ typedef struct ships_data {
     int patrol_boat;
 } ships_data;
 
+int get_opponent(int player);
+bool players_ready(struct game *game);
+bool other_player_ready(struct game *game, int player);
+
 int get_char_ship_type_len(char ship);
 bool is_ship_horizontal(char ship);
 void init_ships_data(struct ships_data * ship_data);
 void mark_ship_seen(char ship, struct ships_data * data);
 
+bool seen_all_ships(struct ships_data *data);
 bool has_seen_char_ship(char ship, struct ships_data *data);
 bool is_char_valid_ship(char ship);
 bool is_char_valid_coordinate(char coordinate);

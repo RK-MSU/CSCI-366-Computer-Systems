@@ -5,6 +5,8 @@
 #ifndef BATTLESHIP_CHAR_BUFF_H
 #define BATTLESHIP_CHAR_BUFF_H
 
+#define DEFAULT_BUFFER_SIZE 2000
+
 typedef struct char_buff {
     char * buffer;
     long append_offset;
