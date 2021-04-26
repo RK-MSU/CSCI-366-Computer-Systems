@@ -16,8 +16,7 @@ int main() {
 
     game_init(); // NB: game init initializes the game state, all held in game.c
 
-    server_start();
-
+    //server_start();
     // C00b02D23S47p71
     // C00B01D02S03P04
 

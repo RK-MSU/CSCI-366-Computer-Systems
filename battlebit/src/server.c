@@ -43,6 +43,8 @@ int handle_client_connect(int player) {
     // to coordinate turns via the game::status field.
 
 
+    struct game *game = game_get_current();
+
     // we need some buffers: one for output/input, a char[] for raw input, and an int for the read_size of the input
     // output_buffer - used to send output messages
     char_buff *output_buffer = cb_create(DEFAULT_BUFFER_SIZE);
@@ -61,7 +63,7 @@ int handle_client_connect(int player) {
 
 
     // the user just joined, lets send out the welcome message and input prompt
-    sprintf(temp_message, "\n--- Welcome to BattleBit ---\nYou are Player: %d\nbattleBit (? for help) > ", player);
+    sprintf(temp_message, "Welcome to the battleBit server Player %d\nbattleBit (? for help) > ", player);
     cb_append(output_buffer, temp_message);
     // send/write message
     cb_write(SERVER->player_sockets[player], output_buffer);
@@ -71,8 +73,6 @@ int handle_client_connect(int player) {
         // reset output and input buffers buffer
         cb_reset(output_buffer);
         cb_reset(input_buffer);
-
-        cb_append(output_buffer, "\n");
 
         // is the read_size appropriate?
         if(input_read_size < 1) { // nope
@@ -100,40 +100,30 @@ int handle_client_connect(int player) {
         char* arg2 = cb_next_token(input_buffer);
 
 
-        /*
-        // debugging...
-        sprintf(temp_message, "User Input: %s\n", input_buffer->buffer);
-        cb_append(output_buffer, temp_message);
-
-        sprintf(temp_message, "Input Read Size: %d\n", input_read_size);
-        cb_append(output_buffer, temp_message);
-
-        sprintf(temp_message, "Input Command: %s\n", command);
-        cb_append(output_buffer, temp_message);
-
-        sprintf(temp_message, "Arg1: %s\n", arg1);
-        cb_append(output_buffer, temp_message);
-
-        sprintf(temp_message, "Arg2: %s\n", arg2);
-        cb_append(output_buffer, temp_message);
-
-        cb_write(SERVER->player_sockets[player], output_buffer);
-        continue;
-         */
-
 
         // process the command
         if(strcmp(command, "?") == 0) { // show help
             cb_append(output_buffer, "? - show help\n");
-            cb_append(output_buffer, "load <string> - load a ship layout file for the given player\n");
-            cb_append(output_buffer, "show - shows the board for the given player\n");
-            cb_append(output_buffer, "fire [0-7] [0-7] - fire at the given position\n");
+            cb_append(output_buffer, "load <string> - load a ship layout\n");
+            cb_append(output_buffer, "show - shows the board\n");
+            cb_append(output_buffer, "fire [0-7] [0-7] - fires at the given position\n");
             cb_append(output_buffer, "say <string> - Send the string to all players as part of a chat\n");
             cb_append(output_buffer, "exit - quit the game\n");
 
         } else if (strcmp(command, "load") == 0) { // load player board
             if(game_load_board(game_get_current(), player, arg1) != -1) { // board loaded successfully
-                cb_append(output_buffer, "Game board loaded successfully!\n");
+
+                // check if both players are ready to play
+                if(game->players[0].ready_to_play == true && game->players[1].ready_to_play == true) {
+                    int player_num_turn = (game->status == PLAYER_0_TURN) ? 0 : 1;
+                    sprintf(temp_message, "All Player Boards Loaded\nPlayer %d Turn\n", player_num_turn);
+                    cb_append(output_buffer, temp_message);
+                } else { // still waiting on next player
+                    int opponent = get_opponent(player);
+                    sprintf(temp_message, "Waiting On Player %d\n", opponent);
+                    cb_append(output_buffer, temp_message);
+                }
+
             } else { // show invalid board load message
                 sprintf(temp_message, "Invalid load game board input: %s\nPlease try again.\n", arg1);
                 cb_append(output_buffer, temp_message);
@@ -143,56 +133,84 @@ int handle_client_connect(int player) {
             repl_print_board(game_get_current(), player, output_buffer);
 
         } else if (strcmp(command, "fire") == 0) { // fire a shot!
-            // get x y coordinates from input args
-            int x = atoi(arg1);
-            int y = atoi(arg2);
 
-            if(is_valid_coordinate(x,y) == true) { // valid coordinates
-                sprintf(temp_message, "Player %i fired at %i %i\n", player + 1, x, y);
-                if (game_fire(game_get_current(), player, x, y)) {
-                    cb_append(output_buffer,"  HIT!!!\n");
-                } else {
-                    cb_append(output_buffer,"  Miss\n");
-                }
+            // first we must see if the game has begun
+            if(game->players[0].ready_to_play != true || game->players[1].ready_to_play != true) {
+                cb_append(output_buffer,"Game Has Not Begun!\n");
             } else {
-                // invalid coordinates, send error message
-                sprintf(temp_message, "Invalid coordinate: %i %i\n", x, y);
-                cb_append(output_buffer, temp_message);
+
+                if( (game->status == PLAYER_0_TURN && player == 0) || (game->status == PLAYER_1_TURN && player == 1)) {
+                    // get x y coordinates from input args
+                    int x = atoi(arg1);
+                    int y = atoi(arg2);
+
+                    if(is_valid_coordinate(x,y) == true) { // valid coordinates
+                        sprintf(temp_message, "Player %d fired at %i %i - ", player, x, y);
+                        cb_append(output_buffer,temp_message);
+                        if (game_fire(game_get_current(), player, x, y)) {
+                            cb_append(output_buffer,"HIT");
+                        } else {
+                            cb_append(output_buffer,"MISS");
+                        }
+
+
+                        char_buff *player_msg = cb_create(DEFAULT_BUFFER_SIZE);
+                        cb_append(player_msg,"\n");
+                        cb_append(player_msg, output_buffer->buffer);
+
+                        if(game->status == PLAYER_0_WINS || game->status == PLAYER_1_WINS) {
+                            int winning_player = (game->status == PLAYER_0_WINS) ? 0 : 1;
+                            sprintf(temp_message, " PLAYER %d WINS!\n", winning_player);
+                            cb_append(output_buffer, temp_message);
+                            cb_append(player_msg, temp_message);
+                        }
+                        cb_append(output_buffer,"\n");
+                        cb_append(player_msg,"\nbattleBit (? for help) > ");
+                        cb_write(SERVER->player_sockets[get_opponent(player)], player_msg);
+                        cb_free(player_msg);
+                    } else {
+                        // invalid coordinates, send error message
+                        sprintf(temp_message, "Invalid coordinate: %i %i\n", x, y);
+                        cb_append(output_buffer, temp_message);
+                    }
+                } else {
+                    int opponent = get_opponent(player);
+                    sprintf(temp_message, "Player %d Turn\n", opponent);
+                    cb_append(output_buffer, temp_message);
+                }
+
             }
+
         } else if (strcmp(command, "say") == 0) { // send a message!
 
+
             char_buff *player_msg = cb_create(DEFAULT_BUFFER_SIZE);
+            sprintf(temp_message, "\nPlayer %d says: ", player);
+            cb_append(player_msg, temp_message);
 
             if(arg1 != NULL) {
-                sprintf(temp_message, "%s", arg1);
-                cb_append(player_msg, temp_message);
-
+                cb_append(player_msg, arg1);
                 if(arg2 != NULL) {
                     sprintf(temp_message, " %s", arg2);
                     cb_append(player_msg, temp_message);
-
                     char *next_arg;
                     while((next_arg = cb_next_token(input_buffer)) != NULL) {
                         sprintf(temp_message, " %s", next_arg);
                         cb_append(player_msg, temp_message);
                     }
                 }
+            }
 
-                prepare_player_message(player_msg, player);
+            cb_append(player_msg, "\nbattleBit (? for help) > ");
 
-                if(message_other_player(player_msg, player)) {
-                    cb_append(output_buffer, "Message Sent!\n");
-                } else {
-                    cb_append(output_buffer, "Other player not connected, try again later!\n");
-                }
-
-            } else {
-                // no message details...
-                cb_append(output_buffer, "Message is empty, cannot send blank messages.\n");
+            int opponent = get_opponent(player);
+            if(SERVER->player_sockets[opponent] != NULL) {
+                cb_write(SERVER->player_sockets[opponent], player_msg);
             }
 
             cb_free(player_msg);
-
+        } else if (strcmp(command, "shortcut") == 0) { // exit the game
+            game_get_current()->players[get_opponent(player)].ships = 1;
         } else if (strcmp(command, "exit") == 0) { // exit the game
             cb_append(output_buffer, "Goodbye!\n\n");
             exit_game = true;
@@ -202,7 +220,7 @@ int handle_client_connect(int player) {
         }
 
         if(exit_game == false) {
-            cb_append(output_buffer, "\nbattleBit (? for help) > ");
+            cb_append(output_buffer, "battleBit (? for help) > ");
         }
 
         // write out message results to player
@@ -222,6 +240,7 @@ int handle_client_connect(int player) {
 
     return 0;
 }
+
 
 void server_broadcast(char_buff *msg) {
     // send message to all players
@@ -246,13 +265,12 @@ void prepare_player_message(char_buff *msg, int player) {
     sprintf(message_details, "\n\n-------------------------\nMessage from Player: %d\n-------------------------\n%s\n-------------------------\n", player, msg->buffer);
     cb_reset(msg);
     cb_append(msg, message_details);
-
 }
 
 bool message_other_player(char_buff *msg, int player) {
     int opponent = get_opponent(player);
     if(SERVER->player_sockets[opponent] != NULL) {
-        cb_append(msg, "\nbattleBit (? for help) > ");
+        cb_append(msg, "battleBit (? for help) > ");
         cb_write(SERVER->player_sockets[opponent], msg);
         return true;
     }

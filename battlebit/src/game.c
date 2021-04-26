@@ -53,6 +53,8 @@ int game_fire(game *game, int player, int x, int y) {
     // update player shots using mask
     game->players[player].shots = game->players[player].shots | shot_mask;
 
+    // update game status for next player turn
+    game->status = (player == 0) ? PLAYER_1_TURN : PLAYER_0_TURN;
 
     // check if shot was a hit
     if(game->players[opponent].ships & shot_mask) { // hit was a success
@@ -60,7 +62,8 @@ int game_fire(game *game, int player, int x, int y) {
         game->players[player].hits = game->players[player].hits | shot_mask;
         // remove hit ship location
         game->players[opponent].ships = game->players[opponent].ships ^ shot_mask;
-    } else {
+
+    } else { // miss cannot result in game end (final ship still standing)
         return 0;
     }
 
