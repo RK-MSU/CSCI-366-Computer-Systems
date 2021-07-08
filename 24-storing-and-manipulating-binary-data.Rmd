@@ -1,0 +1,42 @@
+# Storing & Manipulating Binary Data
+
+- The implementation of registers in the 8086 chip
+- The implementation of an adder (half and full) circuit
+
+## The 8086 chip
+
+-  Produced by intel from 1978 to 1998
+- 16 bit chip
+  - Supported 20 bit addressing
+- First in a series of x86 chips which, unexpectedly, would take over the world
+- Chip was a reaction to the delay of the iAPX 432 chip
+- iAPX 432 was an interesting chip
+  - No user-facing registers
+  - Stack machine
+  - Hardware support for garbage collection, object oriented programming
+- A wonderful tear-down of an original 8086 chip: http://www.righto.com/2020/07/the-intel-8086-processors-registers.html
+
+## 8086 Registers
+
+- Registers, as we know, are very fast memory stores located close to the CPU
+- CPUs use registers for storing and mutating data
+- As with all binary systems, data is stored in 1s and 0s
+- NOT gate implementation
+- The in wire, when activated, opens a channel to ground, causing current to flow to ground
+- When not activated, the channel is blocked, so current flows to out
+- You can see how this _inverts_ the signal on in
+- Physical layout of a NOT gate
+  - Ground and +5 carry electric current
+  - Current on IN opens the resistor, causing current to flow to ground, rather than out
+
+## Implementing A Bit
+
+- How can we implement a stable bit value using NOT gates?
+- Chain them!
+- If top is 0, it will stay 0 as it goes through the bottom gate
+- And vice versa
+- Adding reading and writing to the bit value
+  A read gate
+  A write gate
+- When read gate is open, the the value is written to the bit line
+- When write gate is open, the value of the bit line is written to the register

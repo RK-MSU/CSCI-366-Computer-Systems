@@ -1,0 +1,40 @@
+# Bytes, Hex & Integer Representations
+
+Representing and manipulating binary data
+
+## Bytes
+
+- The smallest group of bits is known as a byte
+- A byte is 8 bits
+- With 8 bits available we can represent 2^8 numbers
+  - 0-255 unsigned
+
+Interpreting this value as an unsigned integer this value is: 
+
+$(10110001)_{2} = (1 × 2^{7}) +$
+$(0 × 2^{6}) + (1 × 2^{5}) + (1 × 2^{4}) +$
+$(0 × 2^{3}) + (0 × 2^{2}) + (0 × 2^{1}) +$
+$(1 × 2^{0}) = (177)_{10}$
+
+## ASCII
+
+- ASCII is an example of a representation imposed on bytes
+- Developed from telegraph code
+- Work on standard began in 1960
+  Encodes 128 English characters into 7 bit integers
+- ASCII codes are shown at right
+- When you work with string literals in C, this is what is actually being stored in memory
+- NB: you can treat these as unsigned integers
+  - We do that when converting a numeric char to its actual numeric value in the project!
+
+## HEX
+
+- Hexadecimal is another way to represent binary data
+  Unrelated to ASCII
+  Rather, an efficient way to specify groups of 4 bytes
+- Uses 16 characters to represent a half byte (a _nibble_)
+  - 0-9, then A-F
+- In written representation, hex is typically prefixed with an 0x:
+  - 0x00F
+- You can use this notation as a literal value in C, Java, etc.
+

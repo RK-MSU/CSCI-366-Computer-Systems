@@ -1,0 +1,15 @@
+bookdown::gitbook:
+  css: style.css
+  split_by: none #chapter
+  number_sections: no
+  config:
+    toolbar:
+      position: fixed
+    toc:
+      before: |
+        <li><a href="./">Computer Systems</a></li>
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+      collapse: none
+      sharing:
+        info: no

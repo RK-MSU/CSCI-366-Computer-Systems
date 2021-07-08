@@ -1,0 +1,629 @@
+# Lecture Notes
+
+## Week 1 - Class Intro
+
+### Jan 11 - Course Introduction
+
+* Lecture: https://youtu.be/RvKBkMojrig
+* Slides: [CSCI 366 - Lecture 01 Introduction.pdf](assets/slides/CSCI 366 - Lecture 01 Introduction.pdf)
+
+Discord
+
+### Jan 13 - Writing Code
+
+* Lecture: https://youtu.be/dzDU9jDDfn8
+* Slides: [CSCI 366 - Lecture 02 Writing Code.pdf](assets/slides/CSCI 366 - Lecture 02 Writing Code.pdf)
+
+
+### Jan 15 - Git
+
+* Lecture: https://youtu.be/6_u9lBO7jXs
+* Slides: [CSCI 366 - Lecture 03 Git.pdf](assets/slides/CSCI 366 - Lecture 03 Git.pdf)
+
+
+https://github.github.com/training-kit/downloads/github-git-cheat-sheet/
+
+https://rogerdudler.github.io/git-guide/
+
+
+Apple M1 assembly: https://smist08.wordpress.com/2021/01/08/apple-m1-assembly-language-hello-world/
+
+<details>
+<summary>Apple M1 assembly Example</summary>
+<pre>
+
+    //
+    // Assembler program to print "Hello World!"
+    // to stdout.
+    //
+    // X0-X2 - parameters to linux function services
+    // X16 - linux function number
+    //
+    .global _start             // Provide program starting address to linker
+    .align 2
+    
+    // Setup the parameters to print hello world
+    // and then call Linux to do it.
+    
+    _start: mov X0, #1     // 1 = StdOut
+            adr X1, helloworld // string to print
+            mov X2, #13     // length of our string
+            mov X16, #4     // linux write system call
+            svc 0     // Call linux to output the string
+    
+    // Setup the parameters to exit the program
+    // and then call Linux to do it.
+    
+            mov     X0, #0      // Use 0 return code
+            mov     X16, #1      // Service command code 93 terminates this program
+            svc     0           // Call linux to terminate the program
+    
+    helloworld:      .ascii  "Hello World!\n"
+    
+</pre>
+</details>
+
+I Like Money: https://www.youtube.com/watch?v=sZHCVyllnck
+
+#### Lecture Notes
+
+**Version Control**: “Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later.”
+
+* In the beginning
+  * One source of truth, hard to work "offline"
+  * locked files (only one person could edit)
+* Today
+  * Distributed Version Control Systems (DVCS)
+    * No Locking
+    * No centrall repo
+    * Autonomy
+
+
+**Github**
+
+* has become the master central repo.
+* Micosoft bought them
+* GitLab is an alternative
+* “Forks” and "Pull requests" are a Github thing, not a git thing
+
+**Git**
+
+* Git is a command line tool for managing changes to source code
+* Developed by Linus Torivalds, of Linux Fame
+  * Linux Kernel was using a proprietary source control system for Linux, BitKeeper
+  * BitKeeper guy got mad, pulled the free license
+  * Linus declared he would begin working on git on April 3rd, 2005
+  * First version shipped April 6th
+  * Self-hosted April 7th
+  * Managed the Linux 2.6.12 release on June 16th
+  * Linus is a really good programmer...
+
+**Git Concepts**
+
+* Repository (repo) - A collection of code with a URL end point
+  * e.g. https://github.com/bigskysoftware/htmx.git or
+  git@github.com:bigskysoftware/htmx.git (ssh)
+* Clone - A clone (copy) of another repo (the “upstream” repo)
+  * Forking makes a clone
+* Remote - A remote copy of a repo (e.g. the “upstream” repo)
+* Branch - An independent copy within a given repo
+  * A repo can have multiple branches, all with different content
+* Merging & Rebasing - Ways to get changes from one repo into another
+
+**Git - Clone** How to I get code from a remote repository onto my machine?
+
+```bash
+$ git clone https://github.com/bigskysoftware/htmx.git
+```
+
+* The clone command - clones a repository to your local machine
+* You can now make changes to the code locally
+
+**More Git Concepts**
+
+* Working Directory - The current state of code on your machine
+* Staging Area - Changes you have “added” to be committed to the repository
+* Repository - What the repository knows about
+
+**Git - Add**: How do I get changes into my local repository?
+
+![Git Add](assets/images/git/git-add.png)
+
+* You “stage” them with “git add”
+* You “commit” them with “git commit”
+
+![Git Add Example](assets/images/git/git-add-example.png)
+
+* Edit a file EXAMPLE.txt
+* Run “git status”, note that it is “untracked”
+* Use “git add” to stage your modification to EXAMPLE.txt
+  * Again, stage means "ready to commit"
+  * “git add” can also add new files, not just modified files
+
+**Git - Commit**
+
+```bash
+$ git commit
+```
+
+* OK, let’s commit our change
+* We are committing it to the local repository
+  * We are NOT sending it up to the server we cloned from
+* You need to create a “commit message”
+* By default git will use the system editor, which is good old pico in our case
+  * You can override this
+* Write a message and save...
+
+**Git - Push**: OK, so how do I get changes into the remote repository?
+
+![Git Push](assets/images/git/git-push.png)
+
+* You “push” them to the remote repository with “git push”
+
+**Git - Pull**: What about new changes from the remote repository?
+
+* You “pull” them from the remote repository with “git pull”
+
+**Git - Branch**:
+
+![Git Branch](assets/images/git/git-branch.png)
+
+* Think of a branch as a new local copy of the code
+  * It can be edited alongside other branches
+  * Changes in the branch won’t be visible in others until you merge
+* Add a branch with:
+
+```bash
+$ git branch <branch-name>
+```
+
+* Git branches have lead to a large number of "git branch strategies"
+  * Conventions for branches that facilitate development
+* There is no standard
+* You will have one “main” branch
+  * Traditionally it is called the "master" branch
+* You often have one or more "development" branches
+* you might also have "feature" branches
+* You might have "release" branches
+* It can get pretty crazy
+* We will keep it simple for this class: you will have one branch
+
+
+## Week 2 - Class Project
+
+### Jan 20 - Project Overview
+
+* Lecture: https://youtu.be/eAdm74t4Q-E
+
+
+* `src/main.c` is the starting point for the game.
+* `game.c` - logic of the game
+* `repl.c` - read eval print loop
+* `server.c` - network aspct of project
+
+
+
+
+## Week 3
+
+### Jan 25 - VM Setup & Markdown
+
+
+**Establish an SSH Identiry**
+
+* SSH is primarily done on Unix machines
+
+Config keys are located at:
+
+```bash
+$ ls ~/.ssh/
+```
+
+**Generate a new SSH**
+
+1. `ssh-keygen` - generates a new key
+
+    $ ssh-keygen
+    Enter file in which to save the key (/home/.../.ssh/id_rsa): 
+    Enter passphrase (empty for no passphrase): 
+    Enter same passphrase again: 
+    Your identification has been saved in /home/.../.ssh/id_rsa
+    Your public key has been saved in /home/.../.ssh/id_rsa.pub
+    The key fingerprint is:
+    SHA256:8I377HIUNd7u+iJpdBT5eiGS6Plw/pNGJOgCAA1h19I rkelly@RK-PC-Ubuntu
+    The key's randomart image is:
+    +---[RSA 3072]----+
+    |+* .o        .   |
+    |. +. E      =    |
+    |   .. .  o + =   |
+    |    .  ooo= = +  |
+    |     . oS..* + . |
+    |      . =.+ + o  |
+    |       ..B + +   |
+    |        .oB = .  |
+    |         =++o=.  |
+    +----[SHA256]-----+
+
+
+
+Notice the newly created files:
+
+```bash
+$ ls ~/.ssh/
+id_rsa  id_rsa.pub
+```
+
+
+**Note**: sometimes you will need to write:
+
+```bash
+$ ssh-add ~/.ssh/id_rsa
+```
+
+
+2. Get you public key (not sensitive, can be given out liberally) * DO NOT give out `id_rsa`
+
+```bash
+// print public key
+$ cat ~/.ssh/id_rsa.pub
+```
+
+Go to https://github.com/settings/ssh/new > Add a bew SSH Key
+
+
+3. Clone you new Repo from Github
+
+```bash
+$ git clone git@github.com:RK-MSU/TEST.git
+Cloning into 'TEST'...
+Warning: Permanently added the RSA host key for IP address '140......' to the list of known hosts.
+warning: You appear to have cloned an empty repository.
+```
+
+http://gitready.com/intermediate/2009/02/13/list-remote-branches.html
+
+https://git-scm.com/book/id/v2/Git-Branching-Remote-Branches
+
+https://devconnected.com/how-to-compare-two-git-branches/
+
+
+**How to Delete a Git Branch Both Locally and Remotely**
+
+```bash
+// delete branch locally
+$ git branch -d localBranchName
+
+// delete branch remotely
+$ git push origin --delete remoteBranchName
+
+// You can also use this shorter command to 
+// delete a branch remotely: git push <remote> :<branch>
+$ git push origin :test
+
+```
+
+
+### Jan 27 - Linux Command Line
+
+`ctrl + r` - search through terminal
+
+`ctrl + k` - kill
+
+`ctrl + a` - jump to beginning of the line
+
+Count lines of code 
+
+```bash
+$ find . | grep "./*\/src\/.*\.js$" | xargs wc -l 
+```
+
+`$` - Find "at the end (of the line)"
+
+**The Unix Phil**
+
+- Write programs that do one thing well
+
+### Jan 29 - Building & Testing Code (Two lectures ski day)
+
+#### Building Code
+
+On the command line
+
+```bash
+$ cat demo.c // suppose we have a file named "demo.c"
+#include <stdio.h>
+
+int main() {
+  puts("Hello World");
+}
+$ gcc demo.c -o demo // compile the code
+$ ls
+demo democ. // now we have an executable file 'demo'
+$ ./demo // run the code
+Hello World
+```
+
+##### Managing Builds
+
+- Software the manages the build process for a program
+- `Make` - OG 
+- `CMake` - 1999, "modern" version
+  - Syntax is a bit more project oriented
+
+```bash
+$ cmake .
+$ make
+```
+
+#### Testing Code
+
+
+
+## Week 4
+
+### Feb 1 - Re-Introduction to C
+
+https://www.learn-c.org/
+
+https://godbolt.org/
+
+
+## Bits & Bitmasks (Feb 8, 2021)
+
+
+*Bits Definition*
+
+    8 4 2 1           // index values
+    -------
+    1 0 1 0   = 10d   // i.e. 8+0+2+0 = 10
+    0 1 0 1   = 5d    // i.e. 0+4+0+1 = 5
+    0 0 0 1   = 1d
+
+
+### Storage
+
+```c
+// variable declaration
+unsigned long long my_unsigned_int_64 = 0; // zeros out the whole thing
+
+// literal
+my_unsigned_int_64 = 1ull;
+```
+
+`1ull` - 1 unsigned long long
+
+
+### Manipulation
+
+- Binary manipulation (bit masks) are based on simple boolean logic
+- Boolean - true or false
+- Binary Equivalent - 1 or 0
+- Boolean Logic Operators:
+  - NOT
+  - AND
+  - OR
+  - XOR
+
+### Boolean Logic
+
+#### NOT
+
+- Unary operator
+- Inverts a single value
+  - true $\rightarrow$ false
+  - false $\rightarrow$ true
+  - $0 \rightarrow 1$
+  - $1 \rightarrow 0$
+
+**Truth table**
+
+| A | !A |
+| :--: | :--: |
+| 1 | 0 |
+| 0 | 1 |
+
+
+#### AND
+
+- Binary Operator
+  - If both values are true, true
+  - else false
+
+**Truth table**
+
+| A | B | A&B |
+| :--: | :--: | :--: |
+| 1 | 1 | 1 |
+| 0 | 1 | 0 |
+| 1 | 0 | 0 |
+| 0 | 0 | 0 |
+
+
+#### OR
+
+- Binary Operator
+  - If either value is true, true
+  - else false
+
+**Truth table**
+
+| A | B | A|B |
+| :--: | :--: | :--: |
+| 1 | 1 | 1 |
+| 0 | 1 | 1 |
+| 1 | 0 | 1 |
+| 0 | 0 | 0 |
+
+
+
+#### XOR
+
+- Binary Operator
+  - If either value is true and the other is not true, true
+  - else false
+- *XOR is a very important logical operator, we will discuss it more when we discuss CPU design*
+
+**Truth table**
+
+| A | B | A^B |
+| :--: | :--: | :--: |
+| 1 | 1 | 0 |
+| 0 | 1 | 1 |
+| 1 | 0 | 1 |
+| 0 | 0 | 0 |
+
+
+### Boolean Logic - C Equivalents
+
+- C has bitwise equivalents of these operators
+- Allow you to apply boolean logic, treating each bit of two numbers as pairwise booleans
+- Consider two for bit numbers:
+  - 10 decimal $\rightarrow$ binary 1010
+  - 5 decimal $\rightarrow$ binary 0101
+- The NOT operator (~)
+  - 10 decimal $\rightarrow$ binary 1010 $\rightarrow$ ~ $\rightarrow$ 0101 $\rightarrow$ 5 in decimal!
+
+Given the Bit definition above, take *NOT* of $10d$ (i.e. `1 0 1 0`)
+
+    8    4    2    1
+    -------------------
+    1    0    1    0      - the 10 decimal
+    -------------------   - now take the not (!A) of each value
+    !1=0 !0=1 !1=0 !0=1   - evaluate result
+    0    1    0    1    = 5d
+
+The `~10d (10101)` $\rightarrow$ `5d (0101)`, as shown above.
+
+
+
+
+### Bit Masking
+
+- In the project and in life in general, you will often be interested in a specific bit
+- To get the value of a single bit, you will need to create a bit mask
+- A bit mask is the number 1 that has been shifted to the correct bit
+position
+- The left bit shift operator in C is `<<`
+- This moves all the bits n slots to the left in the number
+- Consider binary 1010 (decimal 10)
+
+    1010 << 1 = 0100 (decimal 4)
+    1010 << 2 = 1000 (decimal 8)
+    1010 << 3 = 0000 (decimal 0)
+
+#### Getting an bit mask for the Nth bit:
+
+In this example, we are taking the value `1` and shifting it 10 spots to the left.
+This mask is now going to allow us to get the 11th bit from some other value.
+```c
+unsigned int n = 10;
+unsigned int mask = 1u << n;
+```
+
+#### Testing the Nth bit of a value
+
+```c
+unsigned int value = 1024;
+unsigned int n = 10;
+unsigned int mask = 1u << n;
+if(mask & value) {
+  printf("Yep! That bit was 1\n");
+}
+```
+
+
+
+#### Setting the Nth bit of a value
+
+```c
+unsigned int value = 1023;
+unsigned int n = 10;
+unsigned int mask = 1u << n;
+value = value | mask;
+```
+
+
+
+#### Clearing the Nth bit of a value
+
+```c
+unsigned int value = 1023;
+unsigned int n = 10;
+unsigned int mask = ~(1u << n);
+value = value & mask;
+```
+
+
+
+# Networking
+
+
+See `samples/server_demo.c`
+
+
+## Sockets
+
+- Sockets provide an abstraction for communicating across networks
+- Typically there are two use cases for sockets:
+    - A client
+    - A server
+- C treats sockets as _File escriptors_ and the API is eavily influenced by File I/O
+- Inline with UNIX philosophy
+    - _"Everything is a files"_
+
+
+### Client Sockets
+
+- A sockets client is easier, so we will start with that
+- Three operations:
+    - Create the socket 
+    - Connect
+    - Send/Receive
+
+#### Create 
+
+- To create a socket we first need to import
+    - the `sys/socket.h` lib - provides the core socket functions
+    - The `netinet/in.h` lib - provides some constants that make our code clearer
+
+
+[Code](https://github.com/RK-MSU/csci-366-spring2021-private/blob/19040ed9af5f0f457cadb1bfb42eb2929e076733/samples/sockets.c#L8)
+
+```C
+#include <stdio.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+void client_demo(){
+    int socket_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (socket_fd == -1)
+    {
+        printf("Could not create socket\n");
+    }
+    
+    .....
+}
+```
+
+
+-The next step is to create a socket file descriptor with the socket function call
+- First argument is the domain
+    - In this case we are using IPv4, known colloquially as “The Internet”
+- Second argument is the mode
+    - We are going to use a streaming, the most common mode
+- The third argument is the protocol
+    - We are going to use TCP over IP, sometimes referred to TCP/IP
+    - Another common protocol is UDP
+
+
+#### Connect
+
+- The next step is to connect to a server
+- To do this we will need to create a data structure to specify the server
+- _sockadder_in_ struct - represents a socket address we want to connect to
+
+
+
+
+
+

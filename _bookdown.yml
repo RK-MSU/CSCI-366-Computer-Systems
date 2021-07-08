@@ -1,0 +1,7 @@
+book_filename: "366-Computer-Systems"
+delete_merged_file: true
+output_dir: 'docs'
+clean: ['docs']
+language:
+  ui:
+    chapter_name: "Chapter "

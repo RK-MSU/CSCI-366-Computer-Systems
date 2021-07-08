@@ -1,0 +1,44 @@
+# The Stack & The Heap
+
+How Data is Stored in C Programs
+
+## Memory Segments In C
+
+- C has different segments of memory
+  - Code segment (aka Text Segment) - the instructions of the program are stored here, typically read only!
+  - Data & BSS segments - global and static variables are stored here
+    - Known, fixed size
+    - BSS is zero initialized
+  - The Stack - where function parameters, local variables and other function related information is stored
+  - The Heap - an area where dynamically allocated memory lives
+
+## The Stack
+
+- The stack is where function-related information is store
+  - Parameters
+    -  Kind of - See x64 calling conventions
+  - Local variables for a function
+  - Return values from functions
+  - Return address to jump to when function returns (hidden from us, to an extent)
+- Recall a stack data structure
+- The operations on a stack are
+  - Add to the top of the stack
+  - Remove from the top of the stack
+  - Look At the current top of the stack
+- You can't access a plate that isn't at the top of the stack
+-  A C function can't access variables not declared in the current Stack Frame
+  - A debugger can though, by using data stored in the stack :)
+- In C, the stack is managed by the C runtime
+- When you make a function call, a few things happen:
+  - The address of the next instruction is pushed onto the stack
+  - A Stack Frame is allocated for the new function
+  - Parameters are passed appropriately
+- The CPU then jumps to the function being called
+- A stack frame has been pushed onto the stack
+- When the function completes, the stack frame is deallocated and the CPU jumps back to the return location
+- This is how come automatic variables are automatically reclaimed: the data lives on the stack and go away when the stack frame goes away
+- A recursive function demo makes some things clear
+  - Notice that each function call has its own copies of the parameter i and the local variable i_address
+  - What do you notice about i_address?
+
+

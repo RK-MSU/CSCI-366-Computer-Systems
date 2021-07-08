@@ -1,0 +1,34 @@
+River Kelly
+CSCI-366
+Unix Command Line Homework
+Due: Feb 5, 2021
+Date: Feb 1, 2021
+
+
+--------------------
+Instructions
+--------------------
+Take the command line script that I demonstrated at the end of the Linux Command Line lecture & modify it to count all the code in the C and header files (ending in .c and .h) in your project.
+
+(in the battleBit directory)
+
+ 
+You can just submit the text of the command line script as well as the results
+
+--------------------
+Response
+--------------------
+
+$ find . | grep "./battlebit\/src\/.*\.[hc]$" | xargs wc -l
+   26 ./battlebit/src/main.c
+    1 ./battlebit/src/helper.h
+   42 ./battlebit/src/game.h
+   21 ./battlebit/src/repl.h
+   19 ./battlebit/src/helper.c
+   34 ./battlebit/src/char_buff.h
+   86 ./battlebit/src/game.c
+   65 ./battlebit/src/char_buff.c
+   22 ./battlebit/src/server.h
+   62 ./battlebit/src/server.c
+  117 ./battlebit/src/repl.c
+  495 total

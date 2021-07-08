@@ -1,0 +1,102 @@
+# Introduction to Assembler
+
+**Resources**:
+
+- [Little Man Computer](https://peterhigginson.co.uk/lmc/)
+- [NASM Tutorial](https://cs.lmu.edu/~ray/notes/nasmtutorial/)
+
+## Math
+
+1. **ADD**: 1XX - adds the value stored in location XX to whatever value is currently in the Accumulator
+2. **SUB**: 2XX - subtracts the value stored in location XX from whatever value is in the Accumulator
+3. **STA**: 3XX - stores the value in the Accumulator into the memory location XX
+4. **LDA**: 5XX - loads the value in the memory location XX into the Accumulator
+5. **BRA**: 6XX - unconditionally sets the Program Counter to the memory location XX
+6. **BRZ**: 7XX - branches to the location XX if the accumulator is zero
+7. **BRP**: 8xx - branches to the location XX if the accumulator is 0 or positive
+8. **INP**: 901 - Ask the user for numeric input, to be stored in the Accumulator
+9. **OUT**: 902 - Write the current accumulator value to the output area
+10. **HLT**/**COB**: 000 - end the program, halt, take a coffee break
+
+
+## Labels
+
+- A nice way to avoid having to hard code addresses into your assembly program
+- Provide a symbolic way to refer to jump targets or data loads
+- Here we are storing 42 at the 4th position and loading it via a label
+- Labels also become important as we implement things like loops or conditional branches in our assembly program
+
+**Examples**:
+
+```assembly
+        LDA ANSWER
+        OUT
+        HLT
+ANSWER  DAT 42
+```
+
+*Add One*
+
+- Our first program is going to be extremely simple
+- Ask the user for a number, add one to it, and then output the number
+
+```assembly
+        INP
+        ADD ONE
+        OUT
+        HLT
+ONE     DAT 1
+```
+
+- `INP` - get user input and put it in the accumulator
+- `ADD ONE` - add the number stored at the label ONE to the value in the accumulator
+- `OUT` - output the value in the accumulator to the output area
+- `HLT` - stop execution
+- `ONE DAT 1` - Store the value 1 at the “current” position and make it available for reference with the label “ONE”
+
+*Count Down*: Let's do something more complex: Print the numbers 10 to 1 in decreasing order
+
+```assembly
+        LDA TEN
+LOOP    BRZ EXIT
+        OUT
+        SUB ONE
+        BRA LOOP
+EXIT    HLT
+ONE     DAT 1
+TEN     DAT 10
+```
+
+- LDA - load the number 10 into the accumulator
+- BRZ - If the accumulator is 0, branch to EXIT
+- OUT - Else, print the accumulator
+- SUB - subtract 1 from the accumulator
+- BRA - unconditionally jump back to the start of the loop
+- HLT - Halt (exit)
+- ONE, TEN - Data slots to hold constants
+- This demonstrates two higher level programming language concepts:
+  - Conditional logic (if statements)
+  - Looping (for, do, while)
+- Compilers take your higher level programming language constructs, like the while loop in C, and create instructions like this
+
+*Max*: “Ask the user for two numbers and print the maximum of the two”
+
+```assembly
+          INP
+          STA 99
+          INP
+          STA 98
+          SUB 99
+          BRP LOAD_2ND
+          LDA 99
+          BRA PRINT
+LOAD_2ND  LDA 98
+PRINT     OUT
+          HLT
+```
+
+
+
+
+
+
