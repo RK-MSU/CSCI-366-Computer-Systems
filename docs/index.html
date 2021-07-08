@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>CSCI 366 Computer Systems</title>
+  <meta name="description" content="Description…" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="CSCI 366 Computer Systems" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Description…" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="CSCI 366 Computer Systems" />
+  
+  <meta name="twitter:description" content="Description…" />
+  
+
+<meta name="author" content="River Kelly" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Computer Systems</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path=""><a href="#welcome"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#quiz-5"><i class="fa fa-check"></i>Quiz 5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path=""><a href="#course-introduction"><i class="fa fa-check"></i>Course Introduction</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#writing-code"><i class="fa fa-check"></i>Writing Code</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#git"><i class="fa fa-check"></i>Git</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#project-overview"><i class="fa fa-check"></i>Project Overview</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#github-markdown"><i class="fa fa-check"></i>Github &amp; Markdown</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#linux-command-line"><i class="fa fa-check"></i>Linux Command Line</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#building-code"><i class="fa fa-check"></i>Building Code</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#testing-code"><i class="fa fa-check"></i>Testing Code</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#re-introduction-to-c"><i class="fa fa-check"></i>Re-introduction to C</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#functions-in-c"><i class="fa fa-check"></i>Functions in C</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#bits-and-bitmasks"><i class="fa fa-check"></i>Bits and Bitmasks</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#pointers-arrays"><i class="fa fa-check"></i>Pointers &amp; Arrays</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#strings-structs"><i class="fa fa-check"></i>Strings &amp; Structs</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#project-help"><i class="fa fa-check"></i>Project Help</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#the-stack-the-heap"><i class="fa fa-check"></i>The Stack &amp; The Heap</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#memory-segments-in-c"><i class="fa fa-check"></i>Memory Segments In C</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#the-stack"><i class="fa fa-check"></i>The Stack</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path=""><a href="#networking-sockets"><i class="fa fa-check"></i>Networking (Sockets)</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#concurrency-in-c"><i class="fa fa-check"></i>Concurrency in C</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#introduction-to-assembler"><i class="fa fa-check"></i>Introduction to Assembler</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#math"><i class="fa fa-check"></i>Math</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#labels"><i class="fa fa-check"></i>Labels</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path=""><a href="#storing-manipulating-binary-data"><i class="fa fa-check"></i>Storing &amp; Manipulating Binary Data</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#the-8086-chip"><i class="fa fa-check"></i>The 8086 chip</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#registers"><i class="fa fa-check"></i>8086 Registers</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#implementing-a-bit"><i class="fa fa-check"></i>Implementing A Bit</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path=""><a href="#bytes-hex-integer-representations"><i class="fa fa-check"></i>Bytes, Hex &amp; Integer Representations</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#bytes"><i class="fa fa-check"></i>Bytes</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#ascii"><i class="fa fa-check"></i>ASCII</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#hex"><i class="fa fa-check"></i>HEX</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path=""><a href="#floating-point"><i class="fa fa-check"></i>Floating Point</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#the-cpu"><i class="fa fa-check"></i>The CPU</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#references"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">CSCI 366 Computer Systems</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">CSCI 366 Computer Systems</h1>
+<p class="author"><em>River Kelly</em></p>
+<p class="date" style="margin-top: 1.5em;"><em>Spring 2021</em></p>
+</div>
+<div id="welcome" class="section level1">
+<h1>Welcome</h1>
+<div id="quiz-5" class="section level2">
+<h2>Quiz 5</h2>
+<p>For the quiz tomorrow, please review the following things:</p>
+<ul>
+<li>How to convert a number from decimal (e.g. 42) to an 8 bit unsigned binary integer</li>
+<li>How to convert a number from decimal (e.g. -42) to an 8 bit two’s complement integer</li>
+<li>How to interpret a 16 bit floating point number in terms of decimal</li>
+</ul>
+
+</div>
+</div>
+<div id="course-introduction" class="section level1">
+<h1>Course Introduction</h1>
+
+</div>
+<div id="writing-code" class="section level1">
+<h1>Writing Code</h1>
+
+</div>
+<div id="git" class="section level1">
+<h1>Git</h1>
+
+</div>
+<div id="project-overview" class="section level1">
+<h1>Project Overview</h1>
+
+</div>
+<div id="github-markdown" class="section level1">
+<h1>Github &amp; Markdown</h1>
+
+</div>
+<div id="linux-command-line" class="section level1">
+<h1>Linux Command Line</h1>
+
+</div>
+<div id="building-code" class="section level1">
+<h1>Building Code</h1>
+
+</div>
+<div id="testing-code" class="section level1">
+<h1>Testing Code</h1>
+
+</div>
+<div id="re-introduction-to-c" class="section level1">
+<h1>Re-introduction to C</h1>
+
+</div>
+<div id="functions-in-c" class="section level1">
+<h1>Functions in C</h1>
+
+</div>
+<div id="bits-and-bitmasks" class="section level1">
+<h1>Bits and Bitmasks</h1>
+
+</div>
+<div id="pointers-arrays" class="section level1">
+<h1>Pointers &amp; Arrays</h1>
+
+</div>
+<div id="strings-structs" class="section level1">
+<h1>Strings &amp; Structs</h1>
+
+</div>
+<div id="project-help" class="section level1">
+<h1>Project Help</h1>
+
+</div>
+<div id="the-stack-the-heap" class="section level1">
+<h1>The Stack &amp; The Heap</h1>
+<p>How Data is Stored in C Programs</p>
+<div id="memory-segments-in-c" class="section level2">
+<h2>Memory Segments In C</h2>
+<ul>
+<li>C has different segments of memory
+<ul>
+<li>Code segment (aka Text Segment) - the instructions of the program are stored here, typically read only!</li>
+<li>Data &amp; BSS segments - global and static variables are stored here
+<ul>
+<li>Known, fixed size</li>
+<li>BSS is zero initialized</li>
+</ul></li>
+<li>The Stack - where function parameters, local variables and other function related information is stored</li>
+<li>The Heap - an area where dynamically allocated memory lives</li>
+</ul></li>
+</ul>
+</div>
+<div id="the-stack" class="section level2">
+<h2>The Stack</h2>
+<ul>
+<li>The stack is where function-related information is store
+<ul>
+<li>Parameters
+<ul>
+<li>Kind of - See x64 calling conventions</li>
+</ul></li>
+<li>Local variables for a function</li>
+<li>Return values from functions</li>
+<li>Return address to jump to when function returns (hidden from us, to an extent)</li>
+</ul></li>
+<li>Recall a stack data structure</li>
+<li>The operations on a stack are
+<ul>
+<li>Add to the top of the stack</li>
+<li>Remove from the top of the stack</li>
+<li>Look At the current top of the stack</li>
+</ul></li>
+<li>You can’t access a plate that isn’t at the top of the stack</li>
+<li>A C function can’t access variables not declared in the current Stack Frame</li>
+<li>A debugger can though, by using data stored in the stack :)</li>
+<li>In C, the stack is managed by the C runtime</li>
+<li>When you make a function call, a few things happen:
+<ul>
+<li>The address of the next instruction is pushed onto the stack</li>
+<li>A Stack Frame is allocated for the new function</li>
+<li>Parameters are passed appropriately</li>
+</ul></li>
+<li>The CPU then jumps to the function being called</li>
+<li>A stack frame has been pushed onto the stack</li>
+<li>When the function completes, the stack frame is deallocated and the CPU jumps back to the return location</li>
+<li>This is how come automatic variables are automatically reclaimed: the data lives on the stack and go away when the stack frame goes away</li>
+<li>A recursive function demo makes some things clear
+<ul>
+<li>Notice that each function call has its own copies of the parameter i and the local variable i_address</li>
+<li>What do you notice about i_address?</li>
+</ul></li>
+</ul>
+
+</div>
+</div>
+<div id="networking-sockets" class="section level1">
+<h1>Networking (Sockets)</h1>
+
+</div>
+<div id="concurrency-in-c" class="section level1">
+<h1>Concurrency in C</h1>
+
+</div>
+<div id="introduction-to-assembler" class="section level1">
+<h1>Introduction to Assembler</h1>
+<p><strong>Resources</strong>:</p>
+<ul>
+<li><a href="https://peterhigginson.co.uk/lmc/">Little Man Computer</a></li>
+<li><a href="https://cs.lmu.edu/~ray/notes/nasmtutorial/">NASM Tutorial</a></li>
+</ul>
+<div id="math" class="section level2">
+<h2>Math</h2>
+<ol style="list-style-type: decimal">
+<li><strong>ADD</strong>: 1XX - adds the value stored in location XX to whatever value is currently in the Accumulator</li>
+<li><strong>SUB</strong>: 2XX - subtracts the value stored in location XX from whatever value is in the Accumulator</li>
+<li><strong>STA</strong>: 3XX - stores the value in the Accumulator into the memory location XX</li>
+<li><strong>LDA</strong>: 5XX - loads the value in the memory location XX into the Accumulator</li>
+<li><strong>BRA</strong>: 6XX - unconditionally sets the Program Counter to the memory location XX</li>
+<li><strong>BRZ</strong>: 7XX - branches to the location XX if the accumulator is zero</li>
+<li><strong>BRP</strong>: 8xx - branches to the location XX if the accumulator is 0 or positive</li>
+<li><strong>INP</strong>: 901 - Ask the user for numeric input, to be stored in the Accumulator</li>
+<li><strong>OUT</strong>: 902 - Write the current accumulator value to the output area</li>
+<li><strong>HLT</strong>/<strong>COB</strong>: 000 - end the program, halt, take a coffee break</li>
+</ol>
+</div>
+<div id="labels" class="section level2">
+<h2>Labels</h2>
+<ul>
+<li>A nice way to avoid having to hard code addresses into your assembly program</li>
+<li>Provide a symbolic way to refer to jump targets or data loads</li>
+<li>Here we are storing 42 at the 4th position and loading it via a label</li>
+<li>Labels also become important as we implement things like loops or conditional branches in our assembly program</li>
+</ul>
+<p><strong>Examples</strong>:</p>
+<pre class="assembly"><code>        LDA ANSWER
+        OUT
+        HLT
+ANSWER  DAT 42</code></pre>
+<p><em>Add One</em></p>
+<ul>
+<li>Our first program is going to be extremely simple</li>
+<li>Ask the user for a number, add one to it, and then output the number</li>
+</ul>
+<pre class="assembly"><code>        INP
+        ADD ONE
+        OUT
+        HLT
+ONE     DAT 1</code></pre>
+<ul>
+<li><code>INP</code> - get user input and put it in the accumulator</li>
+<li><code>ADD ONE</code> - add the number stored at the label ONE to the value in the accumulator</li>
+<li><code>OUT</code> - output the value in the accumulator to the output area</li>
+<li><code>HLT</code> - stop execution</li>
+<li><code>ONE DAT 1</code> - Store the value 1 at the “current” position and make it available for reference with the label “ONE”</li>
+</ul>
+<p><em>Count Down</em>: Let’s do something more complex: Print the numbers 10 to 1 in decreasing order</p>
+<pre class="assembly"><code>        LDA TEN
+LOOP    BRZ EXIT
+        OUT
+        SUB ONE
+        BRA LOOP
+EXIT    HLT
+ONE     DAT 1
+TEN     DAT 10</code></pre>
+<ul>
+<li>LDA - load the number 10 into the accumulator</li>
+<li>BRZ - If the accumulator is 0, branch to EXIT</li>
+<li>OUT - Else, print the accumulator</li>
+<li>SUB - subtract 1 from the accumulator</li>
+<li>BRA - unconditionally jump back to the start of the loop</li>
+<li>HLT - Halt (exit)</li>
+<li>ONE, TEN - Data slots to hold constants</li>
+<li>This demonstrates two higher level programming language concepts:
+<ul>
+<li>Conditional logic (if statements)</li>
+<li>Looping (for, do, while)</li>
+</ul></li>
+<li>Compilers take your higher level programming language constructs, like the while loop in C, and create instructions like this</li>
+</ul>
+<p><em>Max</em>: “Ask the user for two numbers and print the maximum of the two”</p>
+<pre class="assembly"><code>          INP
+          STA 99
+          INP
+          STA 98
+          SUB 99
+          BRP LOAD_2ND
+          LDA 99
+          BRA PRINT
+LOAD_2ND  LDA 98
+PRINT     OUT
+          HLT</code></pre>
+
+</div>
+</div>
+<div id="storing-manipulating-binary-data" class="section level1">
+<h1>Storing &amp; Manipulating Binary Data</h1>
+<ul>
+<li>The implementation of registers in the 8086 chip</li>
+<li>The implementation of an adder (half and full) circuit</li>
+</ul>
+<div id="the-8086-chip" class="section level2">
+<h2>The 8086 chip</h2>
+<ul>
+<li>Produced by intel from 1978 to 1998</li>
+<li>16 bit chip
+<ul>
+<li>Supported 20 bit addressing</li>
+</ul></li>
+<li>First in a series of x86 chips which, unexpectedly, would take over the world</li>
+<li>Chip was a reaction to the delay of the iAPX 432 chip</li>
+<li>iAPX 432 was an interesting chip
+<ul>
+<li>No user-facing registers</li>
+<li>Stack machine</li>
+<li>Hardware support for garbage collection, object oriented programming</li>
+</ul></li>
+<li>A wonderful tear-down of an original 8086 chip: <a href="http://www.righto.com/2020/07/the-intel-8086-processors-registers.html" class="uri">http://www.righto.com/2020/07/the-intel-8086-processors-registers.html</a></li>
+</ul>
+</div>
+<div id="registers" class="section level2">
+<h2>8086 Registers</h2>
+<ul>
+<li>Registers, as we know, are very fast memory stores located close to the CPU</li>
+<li>CPUs use registers for storing and mutating data</li>
+<li>As with all binary systems, data is stored in 1s and 0s</li>
+<li>NOT gate implementation</li>
+<li>The in wire, when activated, opens a channel to ground, causing current to flow to ground</li>
+<li>When not activated, the channel is blocked, so current flows to out</li>
+<li>You can see how this <em>inverts</em> the signal on in</li>
+<li>Physical layout of a NOT gate
+<ul>
+<li>Ground and +5 carry electric current</li>
+<li>Current on IN opens the resistor, causing current to flow to ground, rather than out</li>
+</ul></li>
+</ul>
+</div>
+<div id="implementing-a-bit" class="section level2">
+<h2>Implementing A Bit</h2>
+<ul>
+<li>How can we implement a stable bit value using NOT gates?</li>
+<li>Chain them!</li>
+<li>If top is 0, it will stay 0 as it goes through the bottom gate</li>
+<li>And vice versa</li>
+<li>Adding reading and writing to the bit value
+A read gate
+A write gate</li>
+<li>When read gate is open, the the value is written to the bit line</li>
+<li>When write gate is open, the value of the bit line is written to the register</li>
+</ul>
+
+</div>
+</div>
+<div id="bytes-hex-integer-representations" class="section level1">
+<h1>Bytes, Hex &amp; Integer Representations</h1>
+<p>Representing and manipulating binary data</p>
+<div id="bytes" class="section level2">
+<h2>Bytes</h2>
+<ul>
+<li>The smallest group of bits is known as a byte</li>
+<li>A byte is 8 bits</li>
+<li>With 8 bits available we can represent 2^8 numbers
+<ul>
+<li>0-255 unsigned</li>
+</ul></li>
+</ul>
+<p>Interpreting this value as an unsigned integer this value is:</p>
+<p><span class="math inline">\((10110001)_{2} = (1 × 2^{7}) +\)</span>
+<span class="math inline">\((0 × 2^{6}) + (1 × 2^{5}) + (1 × 2^{4}) +\)</span>
+<span class="math inline">\((0 × 2^{3}) + (0 × 2^{2}) + (0 × 2^{1}) +\)</span>
+<span class="math inline">\((1 × 2^{0}) = (177)_{10}\)</span></p>
+</div>
+<div id="ascii" class="section level2">
+<h2>ASCII</h2>
+<ul>
+<li>ASCII is an example of a representation imposed on bytes</li>
+<li>Developed from telegraph code</li>
+<li>Work on standard began in 1960
+Encodes 128 English characters into 7 bit integers</li>
+<li>ASCII codes are shown at right</li>
+<li>When you work with string literals in C, this is what is actually being stored in memory</li>
+<li>NB: you can treat these as unsigned integers
+<ul>
+<li>We do that when converting a numeric char to its actual numeric value in the project!</li>
+</ul></li>
+</ul>
+</div>
+<div id="hex" class="section level2">
+<h2>HEX</h2>
+<ul>
+<li>Hexadecimal is another way to represent binary data
+Unrelated to ASCII
+Rather, an efficient way to specify groups of 4 bytes</li>
+<li>Uses 16 characters to represent a half byte (a <em>nibble</em>)
+<ul>
+<li>0-9, then A-F</li>
+</ul></li>
+<li>In written representation, hex is typically prefixed with an 0x:
+<ul>
+<li>0x00F</li>
+</ul></li>
+<li>You can use this notation as a literal value in C, Java, etc.</li>
+</ul>
+
+</div>
+</div>
+<div id="floating-point" class="section level1">
+<h1>Floating Point</h1>
+
+</div>
+<div id="the-cpu" class="section level1">
+<h1>The CPU</h1>
+
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "none",
+"sharing": {
+"info": false
+}
+},
+"toolbar": {
+"position": "fixed"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
